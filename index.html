@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тріоліс</title>
+<meta name="description" content="Найкращий антропівський майнкрафт сервер в усьому всесвіті.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='24' cy='26' r='16' fill='%23FF5C7C'/%3E%3Ccircle cx='40' cy='26' r='16' fill='%23FFD54A' fill-opacity='.85'/%3E%3Ccircle cx='32' cy='41' r='16' fill='%236FE3BF' fill-opacity='.85'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+// Застосовуємо збережену тему й мову до того, як сторінка намалюється
+(function () {
+  var root = document.documentElement;
+  var theme = "light", lang = "uk";
+  try {
+    var t = localStorage.getItem("triolis-theme");
+    if (t === "dark" || t === "light") theme = t;
+    var l = localStorage.getItem("triolis-lang");
+    if (l === "uk" || l === "en" || l === "ru") lang = l;
+  } catch (e) {}
+  root.setAttribute("data-theme", theme);
+  root.lang = lang;
+})();
+</script>
+<style>
+  :root {
+    --lilac: #ECE8FF;
+    --ink: #1A1446;
+    --coral: #FF5C7C;
+    --mint: #6FE3BF;
+    --butter: #FFD54A;
+    --paper: #FFFFFF;
+    --shadow: #1A1446;
+    --on-color: #1A1446;
+    --blend: multiply;
+    --display: "Unbounded", "Arial Black", system-ui, sans-serif;
+    --body: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: light;
+  }
+  :root[data-theme="dark"] {
+    --lilac: #14112E;
+    --ink: #F2EFFF;
+    --paper: #201B4A;
+    --shadow: #3B32A0;
+    --blend: screen;
+    color-scheme: dark;
+  }
+  [hidden] { display: none !important; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--lilac);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.55;
+  }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 1.25rem; }
+
+  /* top bar */
+  .top { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 0; }
+  .logo { font-family: var(--display); font-weight: 800; font-size: 1.15rem; text-decoration: none; display: flex; align-items: center; gap: .6rem; }
+  .logo svg { width: 34px; height: 34px; }
+  .gear {
+    width: 46px; height: 46px; display: grid; place-items: center;
+    border: 3px solid var(--ink); border-radius: 50%; color: var(--ink); background: var(--paper);
+    text-decoration: none;
+  }
+  .gear svg { width: 24px; height: 24px; transition: transform .35s ease; }
+  .gear:hover svg { transform: rotate(60deg); }
+  .gear[aria-current="page"] { background: var(--butter); color: var(--on-color); }
+  .btn {
+    display: inline-block;
+    font-family: var(--body); font-weight: 600; font-size: 1rem;
+    background: var(--ink); color: var(--paper);
+    border: 3px solid var(--ink); border-radius: 999px;
+    padding: .65rem 1.3rem; text-decoration: none; cursor: pointer;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--coral); }
+  .btn.ghost { background: transparent; color: var(--ink); }
+
+  /* hero */
+  .hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 3rem; align-items: center; padding: 2.5rem 0 4.5rem; }
+  .hero h1 {
+    font-family: var(--display); font-weight: 800;
+    font-size: clamp(2.6rem, 6.2vw, 4.9rem);
+    line-height: 1.02; letter-spacing: -0.02em; margin: 0 0 1.4rem;
+    overflow-wrap: anywhere;
+  }
+  .hero p.lead { font-size: 1.2rem; max-width: 30em; margin: 0 0 1.8rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: .8rem; }
+  .rings { position: relative; width: 150px; height: 130px; margin-bottom: 1.6rem; }
+  .rings i { position: absolute; width: 82px; height: 82px; border-radius: 50%; mix-blend-mode: var(--blend); }
+  .rings i:nth-child(1) { background: var(--coral); left: 0; top: 0; }
+  .rings i:nth-child(2) { background: var(--butter); left: 54px; top: 0; }
+  .rings i:nth-child(3) { background: var(--mint); left: 27px; top: 46px; }
+
+  /* chat */
+  .chat {
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 22px;
+    box-shadow: 10px 10px 0 var(--shadow);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    height: 540px;
+  }
+  .chat-head { display: flex; align-items: center; gap: .7rem; padding: .85rem 1.1rem; background: var(--butter); color: var(--on-color); border-bottom: 3px solid var(--ink); }
+  .chat-head b { font-family: var(--display); font-weight: 800; font-size: 1rem; }
+  .chat-head span { font-size: .9rem; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--on-color); flex: none; }
+  .log { flex: 1; overflow-y: auto; padding: 1.1rem; display: flex; flex-direction: column; gap: .7rem; scroll-behavior: smooth; }
+  .msg { max-width: 85%; padding: .6rem .95rem; border-radius: 16px; border: 2px solid var(--ink); overflow-wrap: anywhere; }
+  .msg.bot { align-self: flex-start; background: var(--lilac); border-bottom-left-radius: 4px; }
+  .msg.me { align-self: flex-end; background: var(--mint); color: var(--on-color); border-bottom-right-radius: 4px; }
+  .msg.typing { letter-spacing: .25em; }
+  .chips { display: flex; flex-wrap: wrap; gap: .45rem; padding: 0 1.1rem .8rem; }
+  .chip {
+    font: 500 .92rem var(--body); color: var(--ink); background: var(--paper);
+    border: 2px solid var(--ink); border-radius: 999px; padding: .3rem .8rem; cursor: pointer;
+  }
+  .chip:hover { background: var(--coral); color: var(--on-color); }
+  .composer { display: flex; gap: .6rem; padding: .8rem 1.1rem 1.1rem; border-top: 3px solid var(--ink); }
+  .composer input {
+    flex: 1; min-width: 0; font: 1rem var(--body); color: var(--ink);
+    border: 2px solid var(--ink); border-radius: 999px; padding: .6rem 1rem; background: var(--paper);
+  }
+  .composer button { padding: .6rem 1.2rem; }
+
+  /* sections */
+  .section { padding: 1rem 0 5rem; }
+  .section h2 { font-family: var(--display); font-weight: 800; font-size: clamp(1.7rem, 3.6vw, 2.5rem); line-height: 1.1; margin: 0 0 2rem; letter-spacing: -0.01em; max-width: 16em; }
+  .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+  .block { border: 3px solid var(--ink); border-radius: 22px; padding: 1.6rem; color: var(--on-color); }
+  .block:nth-child(1) { background: var(--coral); }
+  .block:nth-child(2) { background: var(--butter); border-radius: 22px 22px 80px 22px; }
+  .block:nth-child(3) { background: var(--mint); }
+  .block h3 { font-family: var(--display); font-weight: 500; font-size: 1.2rem; line-height: 1.2; margin: 0 0 .8rem; }
+  .block p { margin: 0 0 1rem; }
+  .block p:last-child { margin-bottom: 0; }
+  .vote { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+  .vote button { background: var(--paper); color: var(--ink); border: 3px solid var(--ink); border-radius: 999px; font: 600 1rem var(--body); padding: .5rem 1rem; cursor: pointer; }
+  .vote button:hover { background: var(--ink); color: var(--paper); }
+  .verdict { margin-top: .9rem; font-family: var(--display); font-weight: 800; font-size: 1.4rem; min-height: 1.6em; }
+
+  /* налаштування */
+  .settings { padding: 1.5rem 0 5rem; }
+  .settings-card {
+    max-width: 600px; background: var(--paper); border: 3px solid var(--ink); border-radius: 22px;
+    box-shadow: 10px 10px 0 var(--shadow); padding: 2rem;
+  }
+  .settings h1 { font-family: var(--display); font-weight: 800; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.1; margin: 0 0 1.8rem; }
+  .back { display: inline-block; margin-bottom: 1.4rem; font-weight: 600; }
+  .seg-group { border: 0; padding: 0; margin: 0 0 2rem; min-width: 0; }
+  .seg-group:last-of-type { margin-bottom: 0; }
+  .seg-group legend { font-family: var(--display); font-weight: 500; font-size: 1.1rem; margin-bottom: .9rem; padding: 0; }
+  .seg-row { display: flex; flex-wrap: wrap; gap: .6rem; }
+  .seg { position: relative; }
+  .seg input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+  .seg span { display: block; border: 3px solid var(--ink); border-radius: 999px; padding: .55rem 1.2rem; font-weight: 600; background: var(--paper); }
+  .seg:hover span { background: var(--lilac); }
+  .seg input:checked + span { background: var(--butter); color: var(--on-color); }
+  .seg input:focus-visible + span { outline: 3px solid var(--coral); outline-offset: 3px; }
+
+  /* жартівливе вікно оплати */
+  dialog.pay { border: 3px solid var(--ink); border-radius: 22px; box-shadow: 10px 10px 0 var(--shadow); background: var(--paper); color: var(--ink); padding: 1.6rem; width: min(440px, calc(100vw - 2rem)); }
+  dialog.pay::backdrop { background: rgba(26,20,70,.55); }
+  dialog.pay h2 { font-family: var(--display); font-weight: 800; font-size: 1.35rem; line-height: 1.15; margin: 0 0 .6rem; }
+  dialog.pay p { margin: 0 0 1rem; }
+  dialog.pay label { display: block; font-weight: 600; margin-bottom: .4rem; }
+  dialog.pay input { width: 100%; font: 1.1rem var(--body); letter-spacing: .08em; color: var(--ink); background: var(--paper); border: 2px solid var(--ink); border-radius: 12px; padding: .65rem .9rem; margin-bottom: 1.1rem; }
+  dialog.pay .row { display: flex; flex-wrap: wrap; gap: .6rem; }
+  dialog.pay .btn.coral { background: var(--coral); color: var(--on-color); }
+  .joke { font-family: var(--display); font-weight: 800; font-size: 1.2rem; margin: 0 0 .8rem; }
+
+  footer { border-top: 3px solid var(--ink); padding: 1.6rem 0 2.4rem; font-size: .95rem; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: .5rem 2rem; justify-content: space-between; }
+
+  @media (max-width: 880px) {
+    .hero { grid-template-columns: 1fr; gap: 2.5rem; padding-bottom: 3.5rem; }
+    .cols { grid-template-columns: 1fr; }
+    .chat { height: 500px; box-shadow: 6px 6px 0 var(--shadow); }
+    .settings-card { box-shadow: 6px 6px 0 var(--shadow); padding: 1.4rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn { transition: none; }
+    .gear svg { transition: none; }
+    .gear:hover svg { transform: none; }
+    .log { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="#">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="24" cy="26" r="16" fill="#FF5C7C"/>
+        <circle cx="40" cy="26" r="16" fill="#FFD54A" fill-opacity=".85"/>
+        <circle cx="32" cy="41" r="16" fill="#6FE3BF" fill-opacity=".85"/>
+      </svg>
+      <span data-i18n="logo">Тріоліс</span>
+    </a>
+    <a class="gear" id="gear" href="#settings" data-i18n-label="settings" aria-label="Налаштування">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </a>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div>
+        <div class="rings" aria-hidden="true"><i></i><i></i><i></i></div>
+        <h1 data-i18n="h1">Слава Тріолісу!</h1>
+        <p class="lead" data-i18n="lead">Найкращий антропівський майнкрафт сервер в усьому всесвіті.</p>
+        <div class="actions">
+          <a class="btn" href="#" id="join-hero" data-i18n="join">Долучитися до серверу</a>
+          <a class="btn ghost" href="#about" data-i18n="about_link">Що тут відбувається?</a>
+        </div>
+      </div>
+
+      <div class="chat" role="region" data-i18n-label="chat_label" aria-label="Чат із ТріолісК">
+        <div class="chat-head">
+          <span class="dot" aria-hidden="true"></span>
+          <b data-i18n="chat_name">ТріолісК.</b>
+          <span data-i18n="chat_sub">ІнтелеКт, котрий відсутній.</span>
+        </div>
+        <div class="log" id="log" aria-live="polite"></div>
+        <div class="chips" id="chips"></div>
+        <form class="composer" id="form" autocomplete="off">
+          <input id="input" type="text" data-i18n-placeholder="chat_ph" placeholder="Напиши щось, наприклад: торти" data-i18n-label="chat_input" aria-label="Повідомлення для ТріолісК" maxlength="200">
+          <button class="btn" type="submit" data-i18n="send">Надіслати</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <h2 data-i18n="about_h">Що тут відбувається?</h2>
+      <div class="cols">
+        <article class="block">
+          <h3 data-i18n="b1_h">Побудова спавну</h3>
+          <p data-i18n="b1_p">Подія доволі актуальна, ведеться активна розробка лінь й подальшого плану по байдикуванні на спавні.</p>
+        </article>
+        <article class="block">
+          <h3 data-i18n="b2_h">Третій сезон</h3>
+          <p data-i18n="b2_p1">Буде в тисяча дев'ятсот вісімдесят четвертому році, не нашої ери.</p>
+          <p data-i18n="b2_p2">Дата остаточна. Просимо не питати знову.</p>
+        </article>
+        <article class="block">
+          <h3 data-i18n="b3_h">Головне питання</h3>
+          <p data-i18n="b3_p">Що краще: Тріоліс чи Інтермецо? Вибір є.</p>
+          <div class="vote">
+            <button type="button" data-vote data-i18n="vote1">Тріоліс</button>
+            <button type="button" data-vote data-i18n="vote2">Інтермецо</button>
+          </div>
+          <div class="verdict" id="verdict" aria-live="polite"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <main id="settings" class="settings" hidden>
+    <a class="back" href="#" data-i18n="set_back">Назад</a>
+    <div class="settings-card">
+      <h1 data-i18n="set_title">Налаштування</h1>
+
+      <fieldset class="seg-group">
+        <legend data-i18n="set_lang">Мова</legend>
+        <div class="seg-row">
+          <label class="seg"><input type="radio" name="lang" value="uk"><span>Українська</span></label>
+          <label class="seg"><input type="radio" name="lang" value="en"><span>English</span></label>
+          <label class="seg"><input type="radio" name="lang" value="ru"><span>Русский</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="seg-group">
+        <legend data-i18n="set_theme">Тема</legend>
+        <div class="seg-row">
+          <label class="seg"><input type="radio" name="theme" value="light"><span data-i18n="theme_light">Світла</span></label>
+          <label class="seg"><input type="radio" name="theme" value="dark"><span data-i18n="theme_dark">Темна</span></label>
+        </div>
+      </fieldset>
+    </div>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span data-i18n="footer">Створено Беніто. Сайт не є офіційним.</span>
+  </div>
+</footer>
+
+<dialog class="pay" id="pay" aria-labelledby="pay-title">
+  <div id="pay-step1">
+    <h2 id="pay-title" data-i18n="pay_title">Вступний внесок: 14 шекелів, 88 аґоротів</h2>
+    <p data-i18n="pay_p">Для входу на сервер введи номер картки.</p>
+    <form id="pay-form" autocomplete="off">
+      <label for="card" data-i18n="pay_label">Номер картки</label>
+      <input id="card" name="not-a-real-field" type="text" inputmode="numeric" autocomplete="off" placeholder="0000 0000 0000 0000" maxlength="19">
+      <div class="row">
+        <button class="btn coral" type="submit" data-i18n="pay_btn">Сплатити 14 шекелів, 88 аґоротів</button>
+        <button class="btn ghost" type="button" id="pay-close" data-i18n="pay_cancel">Передумав</button>
+      </div>
+    </form>
+  </div>
+  <div id="pay-step2" hidden>
+    <p class="joke" data-i18n="pay_joke">Це жарт. Гроші не потрібні. Потрібен лиш туз.</p>
+    <p data-i18n="pay_p2">Номер зберігається в добудованому архіві. Справжнє запрошення нижче.</p>
+    <div class="row">
+      <a class="btn" id="real-join" href="#" data-i18n="join">Долучитися до серверу</a>
+      <button class="btn ghost" type="button" id="pay-close2" data-i18n="pay_close">Закрити</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  // Посилання на Discord: заміни # на своє запрошення
+  var DISCORD_URL = "https://discord.gg/eQn9qyPjG";
+  document.getElementById("join-hero").setAttribute("href", DISCORD_URL);
+
+  /* ---------- Переклади інтерфейсу ---------- */
+  var I18N = {
+    uk: {
+      title: "Тріоліс",
+      desc: "Найкращий антропівський майнкрафт сервер в усьому всесвіті.",
+      logo: "Тріоліс", settings: "Налаштування",
+      h1: "Слава Тріолісу!",
+      lead: "Найкращий антропівський майнкрафт сервер в усьому всесвіті.",
+      join: "Долучитися до серверу", about_link: "Що тут відбувається?",
+      chat_label: "Чат із ТріолісК", chat_name: "ТріолісК.", chat_sub: "ІнтелеКт, котрий відсутній.",
+      chat_ph: "Напиши щось, наприклад: торти", chat_input: "Повідомлення для ТріолісК", send: "Надіслати",
+      about_h: "Що тут відбувається?",
+      b1_h: "Побудова спавну",
+      b1_p: "Подія доволі актуальна, ведеться активна розробка лінь й подальшого плану по байдикуванні на спавні.",
+      b2_h: "Третій сезон",
+      b2_p1: "Буде в тисяча дев'ятсот вісімдесят четвертому році, не нашої ери.",
+      b2_p2: "Дата остаточна. Просимо не питати знову.",
+      b3_h: "Головне питання",
+      b3_p: "Що краще: Тріоліс чи Інтермецо? Вибір є.",
+      vote1: "Тріоліс", vote2: "Інтермецо", verdict: "Виати",
+      footer: "Створено Беніто. Сайт не є офіційним.",
+      pay_title: "Вступний внесок: 14 шекелів, 88 аґоротів",
+      pay_p: "Для входу на сервер введи номер картки.",
+      pay_label: "Номер картки",
+      pay_btn: "Сплатити 14 шекелів, 88 аґоротів",
+      pay_cancel: "Передумав",
+      pay_joke: "Це жарт. Гроші не потрібні. Потрібен лиш туз.",
+      pay_p2: "Номер зберігається в добудованому архіві. Справжнє запрошення нижче.",
+      pay_close: "Закрити",
+      set_title: "Налаштування", set_back: "Назад", set_lang: "Мова", set_theme: "Тема",
+      theme_light: "Світла", theme_dark: "Темна"
+    },
+    en: {
+      title: "Triolis",
+      desc: "The best anthro Minecraft server in the entire universe.",
+      logo: "Triolis", settings: "Settings",
+      h1: "Glory to Triolis!",
+      lead: "The best anthro Minecraft server in the entire universe.",
+      join: "Join the server", about_link: "What's going on here?",
+      chat_label: "Chat with TriolisK", chat_name: "TriolisK.", chat_sub: "IntelleKt, which is missing.",
+      chat_ph: "Write something, e.g.: cakes", chat_input: "Message for TriolisK", send: "Send",
+      about_h: "What's going on here?",
+      b1_h: "Building the spawn",
+      b1_p: "A very topical event. Active work is underway on laziness and a further plan for loafing around at spawn.",
+      b2_h: "Third season",
+      b2_p1: "It will be in the year nineteen eighty-four, not of our era.",
+      b2_p2: "The date is final. Please do not ask again.",
+      b3_h: "The main question",
+      b3_p: "Which is better: Triolis or Intermezzo? There is a choice.",
+      vote1: "Triolis", vote2: "Intermezzo", verdict: "Viati",
+      footer: "Created by Benito. This site is not official.",
+      pay_title: "Entry fee: 14 shekels, 88 agorot",
+      pay_p: "Enter your card number to join the server.",
+      pay_label: "Card number",
+      pay_btn: "Pay 14 shekels, 88 agorot",
+      pay_cancel: "Changed my mind",
+      pay_joke: "This is a joke. No money needed. Only an ace is needed.",
+      pay_p2: "The number is stored in a built-in archive. The real invitation is below.",
+      pay_close: "Close",
+      set_title: "Settings", set_back: "Back", set_lang: "Language", set_theme: "Theme",
+      theme_light: "Light", theme_dark: "Dark"
+    },
+    ru: {
+      title: "Триолис",
+      desc: "Лучший антро-майнкрафт сервер во всей вселенной.",
+      logo: "Триолис", settings: "Настройки",
+      h1: "Слава Триолису!",
+      lead: "Лучший антро-майнкрафт сервер во всей вселенной.",
+      join: "Присоединиться к серверу", about_link: "Что тут происходит?",
+      chat_label: "Чат с ТриолисК", chat_name: "ТриолисК.", chat_sub: "ИнтеллеКт, которого нет.",
+      chat_ph: "Напиши что-нибудь, например: торты", chat_input: "Сообщение для ТриолисК", send: "Отправить",
+      about_h: "Что тут происходит?",
+      b1_h: "Постройка спавна",
+      b1_p: "Событие довольно актуальное, ведётся активная разработка лени и дальнейшего плана по безделью на спавне.",
+      b2_h: "Третий сезон",
+      b2_p1: "Будет в тысяча девятьсот восемьдесят четвёртом году, не нашей эры.",
+      b2_p2: "Дата окончательная. Просим не спрашивать снова.",
+      b3_h: "Главный вопрос",
+      b3_p: "Что лучше: Триолис или Интермеццо? Выбор есть.",
+      vote1: "Триолис", vote2: "Интермеццо", verdict: "Виати",
+      footer: "Создано Бенито. Сайт не является официальным.",
+      pay_title: "Вступительный взнос: 14 шекелей, 88 агорот",
+      pay_p: "Для входа на сервер введи номер карты.",
+      pay_label: "Номер карты",
+      pay_btn: "Заплатить 14 шекелей, 88 агорот",
+      pay_cancel: "Передумал",
+      pay_joke: "Это шутка. Деньги не нужны. Нужен только туз.",
+      pay_p2: "Номер хранится во встроенном архиве. Настоящее приглашение ниже.",
+      pay_close: "Закрыть",
+      set_title: "Настройки", set_back: "Назад", set_lang: "Язык", set_theme: "Тема",
+      theme_light: "Светлая", theme_dark: "Тёмная"
+    }
+  };
+
+  /* ---------- Дані чату ТріолісК по мовах ---------- */
+  var CHAT = {
+    uk: {
+      greeting: "Слава Тріолісу. Напиши щось або натисни на слово нижче.",
+      chips: ["Тріоліс", "Київські торти", "Сезон", "Інтермецо", "Гра", "Бан", "Тю"],
+      fallback: [
+        "ТріолісК не зрозумів. Це нормально, інтелекту ж немає.",
+        "Спробуй щось із місцевого: торти, сезон, Інтермецо.",
+        "Не розумію, але Слава Тріолісу."
+      ],
+      russian: "Москалів на ножі! Москалів на ножі!",
+      triggers: [
+        [["ти хто", "ти що таке", "ти хто таке", "ти хто що таке", "хто ти"],
+         ["Я інтелеКт Тріолісу, ТріолісК. Точніше, відсутність інтелекту Тріолісу."]],
+        [["київські торти", "київський торт"],
+         ["Мої морально-етичні погляди не дозволяють говорити про Київські торти й таємничий інгредієнт."]],
+        [["торти", "торт"], ["Київські?"]],
+        [["тріоліс"], ["Слава Тріолісу."]],
+        [["інтермецо"],
+         ["На Тріолісі було краще, ганьба інтермецо.", "Інтермецо – світло. Тріоліс – пітьма."]],
+        [["сезон", "сезони"], ["Третій сезон буде в тисяча дев'ятсот вісімдесят четвертому році, не нашої ери."]],
+        [["хто такий ендріо", "ендріо"],
+         ["Не знаю такого, лівий чел якийсь, мо і правий, хз, він наче..."]],
+        [["андрій", "андрій"], ["Я знаю двох Андріїв."]],
+        [["гра", "ігри", "гру", "ігор"],
+         ["Бачу, чую, відчуваю, ви говорите про вбивство часу, а саме про ігри, так ось, найкраща гра в жанрі візуальна новела – Kataws Shoujo."]],
+        [["бан", "банан"], ["Така воля Богів. Бан так Бан, Банан так Банан."]],
+        [["що краще тріоліс чи інтермецо", "тріоліс чи інтермецо", "інтермецо чи тріоліс"], ["Виати."]],
+        [["тю"], ["Виати."]],
+        [["виати"], ["Тю."]]
+      ]
+    },
+    en: {
+      greeting: "Glory to Triolis. Write something or tap a word below.",
+      chips: ["Triolis", "Kyiv cakes", "Season", "Intermezzo", "Game", "Ban", "Tyu"],
+      fallback: [
+        "TriolisK did not understand. That's fine, there is no intelligence anyway.",
+        "Try something local: cakes, season, Intermezzo.",
+        "I don't understand, but Glory to Triolis."
+      ],
+      russian: "",
+      triggers: [
+        [["who are you", "what are you", "who what are you"],
+         ["I am the intelleKt of Triolis, TriolisK. More precisely, the absence of Triolis's intelligence."]],
+        [["kyiv cakes", "kyiv cake", "kiev cakes", "kiev cake"],
+         ["My moral and ethical views do not allow me to talk about Kyiv cakes and the mysterious ingredient."]],
+        [["cakes", "cake"], ["Kyiv?"]],
+        [["triolis"], ["Glory to Triolis."]],
+        [["intermezzo"],
+         ["Triolis was better, shame on intermezzo.", "Intermezzo is light. Triolis is darkness."]],
+        [["season", "seasons"], ["The third season will be in nineteen eighty-four, not of our era."]],
+        [["who is endrio", "endrio"],
+         ["Don't know that one, some leftie dude, maybe a rightie, idk, he seems like..."]],
+        [["andrew", "andriy", "andrey"], ["I know two Andrews."]],
+        [["game", "games", "gaming"],
+         ["I see, I hear, I feel that you are talking about killing time, namely games, and so, the best game in the visual novel genre is Kataws Shoujo."]],
+        [["ban", "banana"], ["Such is the will of the Gods. A ban is a ban, a banana is a banana."]],
+        [["which is better triolis or intermezzo", "triolis or intermezzo", "intermezzo or triolis"], ["Viati."]],
+        [["tyu"], ["Viati."]],
+        [["viati"], ["Tyu."]]
+      ]
+    },
+    ru: {
+      greeting: "Слава Триолису. Напиши что-нибудь или нажми на слово ниже.",
+      chips: ["Триолис", "Киевские торты", "Сезон", "Интермеццо", "Игра", "Бан", "Тю"],
+      fallback: [
+        "ТриолисК не понял. Это нормально, интеллекта же нет.",
+        "Попробуй что-то из местного: торты, сезон, Интермеццо.",
+        "Не понимаю, но Слава Триолису."
+      ],
+      russian: "",
+      triggers: [
+        [["ты кто", "ты что такое", "ты кто такой", "кто ты"],
+         ["Я интеллеКт Триолиса, ТриолисК. Точнее, отсутствие интеллекта Триолиса."]],
+        [["киевские торты", "киевский торт"],
+         ["Мои морально-этические взгляды не позволяют говорить о киевских тортах и таинственном ингредиенте."]],
+        [["торты", "торт"], ["Киевские?"]],
+        [["триолис"], ["Слава Триолису."]],
+        [["интермеццо", "интермецо"],
+         ["На Триолисе было лучше, позор интермеццо.", "Интермеццо – свет. Триолис – тьма."]],
+        [["сезон", "сезоны"], ["Третий сезон будет в тысяча девятьсот восемьдесят четвёртом году, не нашей эры."]],
+        [["кто такой эндрио", "эндрио", "ендріо", "ендрио"],
+         ["Не знаю такого, какой-то левый чел, может и правый, хз, он вроде..."]],
+        [["андрей", "андрий"], ["Я знаю двух Андреев."]],
+        [["игра", "игры", "игру", "игр"],
+         ["Вижу, слышу, чувствую, вы говорите об убийстве времени, а именно об играх, так вот, лучшая игра в жанре визуальная новелла – Kataws Shoujo."]],
+        [["бан", "банан"], ["Такова воля Богов. Бан так Бан, Банан так Банан."]],
+        [["что лучше триолис или интермеццо", "триолис или интермеццо", "интермеццо или триолис"], ["Виати."]],
+        [["тю"], ["Виати."]],
+        [["виати"], ["Тю."]]
+      ]
+    }
+  };
+
+  /* ---------- Збереження налаштувань ---------- */
+  function load(key, allowed, fallback) {
+    try {
+      var v = localStorage.getItem(key);
+      if (allowed.indexOf(v) !== -1) return v;
+    } catch (e) {}
+    return fallback;
+  }
+  function save(key, value) {
+    try { localStorage.setItem(key, value); } catch (e) {}
+  }
+
+  var lang = load("triolis-lang", ["uk", "en", "ru"], "uk");
+  var theme = load("triolis-theme", ["light", "dark"], "light");
+
+  /* ---------- Чат ---------- */
+  var LIST = [];
+  function buildList() {
+    LIST = [];
+    CHAT[lang].triggers.forEach(function (t) {
+      t[0].forEach(function (p) { LIST.push([p, t[1]]); });
+    });
+    // довші фрази перевіряємо першими
+    LIST.sort(function (a, b) { return b[0].length - a[0].length; });
+  }
+
+  function norm(s) {
+    return s.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim();
+  }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+  function reply(raw) {
+    var c = CHAT[lang];
+    // реакція на російські літери працює лише в українській версії
+    if (c.russian && /[ыэъё]/i.test(raw)) return c.russian;
+    var text = " " + norm(raw) + " ";
+    for (var i = 0; i < LIST.length; i++) {
+      if (text.indexOf(" " + LIST[i][0] + " ") !== -1) return pick(LIST[i][1]);
+    }
+    return pick(c.fallback);
+  }
+
+  var log = document.getElementById("log");
+  var input = document.getElementById("input");
+  var form = document.getElementById("form");
+  var chips = document.getElementById("chips");
+
+  function add(text, who) {
+    var d = document.createElement("div");
+    d.className = "msg " + who;
+    d.textContent = text;
+    log.appendChild(d);
+    log.scrollTop = log.scrollHeight;
+    return d;
+  }
+
+  function ask(text) {
+    text = text.trim();
+    if (!text) return;
+    add(text, "me");
+    var t = add("...", "bot typing");
+    setTimeout(function () {
+      t.className = "msg bot";
+      t.textContent = reply(text);
+      log.scrollTop = log.scrollHeight;
+    }, 450);
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    ask(input.value);
+    input.value = "";
+    input.focus();
+  });
+
+  function renderChips() {
+    chips.textContent = "";
+    CHAT[lang].chips.forEach(function (w) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "chip"; b.textContent = w;
+      b.addEventListener("click", function () { ask(w); });
+      chips.appendChild(b);
+    });
+  }
+
+  /* ---------- Голосування: "Виати." → "Виати.." → "Виати..." → по колу ---------- */
+  var verdict = document.getElementById("verdict");
+  var dots = 0;      // скільки крапок зараз показано (0 = ще не натискали)
+  function renderVerdict() {
+    verdict.textContent = dots ? I18N[lang].verdict + ".".repeat(dots) : "";
+  }
+  document.querySelectorAll("[data-vote]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      dots = dots % 3 + 1;
+      renderVerdict();
+    });
+  });
+
+  /* ---------- Мова ---------- */
+  function applyLang(newLang) {
+    var changed = newLang !== lang || !log.hasChildNodes();
+    lang = newLang;
+    var d = I18N[lang];
+    document.documentElement.lang = lang;
+    document.title = d.title;
+    document.querySelector('meta[name="description"]').setAttribute("content", d.desc);
+
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      el.textContent = d[el.getAttribute("data-i18n")];
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
+      el.setAttribute("placeholder", d[el.getAttribute("data-i18n-placeholder")]);
+    });
+    document.querySelectorAll("[data-i18n-label]").forEach(function (el) {
+      el.setAttribute("aria-label", d[el.getAttribute("data-i18n-label")]);
+    });
+
+    buildList();
+    renderChips();
+    renderVerdict();
+    if (changed) {
+      log.textContent = "";
+      add(CHAT[lang].greeting, "bot");
+    }
+    var radio = document.querySelector('input[name="lang"][value="' + lang + '"]');
+    if (radio) radio.checked = true;
+  }
+
+  /* ---------- Тема ---------- */
+  function applyTheme(newTheme) {
+    theme = newTheme;
+    document.documentElement.setAttribute("data-theme", theme);
+    var radio = document.querySelector('input[name="theme"][value="' + theme + '"]');
+    if (radio) radio.checked = true;
+  }
+
+  document.querySelectorAll('input[name="lang"]').forEach(function (r) {
+    r.addEventListener("change", function () {
+      if (r.checked) { applyLang(r.value); save("triolis-lang", r.value); }
+    });
+  });
+  document.querySelectorAll('input[name="theme"]').forEach(function (r) {
+    r.addEventListener("change", function () {
+      if (r.checked) { applyTheme(r.value); save("triolis-theme", r.value); }
+    });
+  });
+
+  /* ---------- Перехід між головною та налаштуваннями ---------- */
+  var home = document.getElementById("home");
+  var settings = document.getElementById("settings");
+  var gear = document.getElementById("gear");
+  function route() {
+    var onSettings = location.hash === "#settings";
+    home.hidden = onSettings;
+    settings.hidden = !onSettings;
+    if (onSettings) gear.setAttribute("aria-current", "page");
+    else gear.removeAttribute("aria-current");
+    if (onSettings) window.scrollTo(0, 0);
+  }
+  window.addEventListener("hashchange", route);
+
+  /* ---------- Вікно "оплати" (жарт, дані нікуди не йдуть) ---------- */
+  var pay = document.getElementById("pay");
+  var step1 = document.getElementById("pay-step1");
+  var step2 = document.getElementById("pay-step2");
+  var card = document.getElementById("card");
+  document.getElementById("real-join").setAttribute("href", DISCORD_URL);
+
+  function openPay(e) {
+    e.preventDefault();
+    step1.hidden = false; step2.hidden = true; card.value = "";
+    if (pay.showModal) pay.showModal(); else pay.setAttribute("open", "");
+    card.focus();
+  }
+  function closePay() { card.value = ""; if (pay.close) pay.close(); else pay.removeAttribute("open"); }
+
+  document.getElementById("join-hero").addEventListener("click", openPay);
+  card.addEventListener("input", function () {
+    var d = card.value.replace(/\D/g, "").slice(0, 16);
+    card.value = d.replace(/(.{4})/g, "$1 ").trim();
+  });
+  document.getElementById("pay-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    card.value = "";
+    step1.hidden = true; step2.hidden = false;
+  });
+  document.getElementById("pay-close").addEventListener("click", closePay);
+  document.getElementById("pay-close2").addEventListener("click", closePay);
+
+  /* ---------- Старт ---------- */
+  applyTheme(theme);
+  applyLang(lang);
+  route();
+})();
+</script>
+</body>
+</html>
