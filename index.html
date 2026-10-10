@@ -708,16 +708,17 @@
 
   /* ---------- Галерея ----------
      Щоб додати справжні скріншоти: створи в репозиторії папку gallery,
-     завантаж туди картинки й впиши їхні імена в src нижче.
-     Поки файлу немає, показується кольорова заглушка. */
+     завантаж туди картинки 1, 2, 3 ... (розширення .jpg, .png, .jpeg або .webp
+     підбирається саме). Поки файлу немає, показується кольорова заглушка. */
   var GALLERY = [
-    { src: "gallery/1.jpg", uk: "Спавн, версія 0.1", en: "Spawn, version 0.1", ru: "Спавн, версия 0.1" },
-    { src: "gallery/2.jpg", uk: "Тут буде фонтан", en: "A fountain will be here", ru: "Здесь будет фонтан" },
-    { src: "gallery/3.jpg", uk: "Київський торт, вигляд зверху", en: "Kyiv cake, top view", ru: "Киевский торт, вид сверху" },
-    { src: "gallery/4.jpg", uk: "Байдикування на спавні", en: "Loafing around at spawn", ru: "Безделье на спавне" },
-    { src: "gallery/5.jpg", uk: "Пам'ятник Виати", en: "Monument to Viati", ru: "Памятник Виати" },
-    { src: "gallery/6.jpg", uk: "Третій сезон (1984)", en: "Third season (1984)", ru: "Третий сезон (1984)" }
+    { src: "gallery/1", uk: "Спавн, версія 0.1", en: "Spawn, version 0.1", ru: "Спавн, версия 0.1" },
+    { src: "gallery/2", uk: "Тут буде фонтан", en: "A fountain will be here", ru: "Здесь будет фонтан" },
+    { src: "gallery/3", uk: "Київський торт, вигляд зверху", en: "Kyiv cake, top view", ru: "Киевский торт, вид сверху" },
+    { src: "gallery/4", uk: "Байдикування на спавні", en: "Loafing around at spawn", ru: "Безделье на спавне" },
+    { src: "gallery/5", uk: "Пам'ятник Виати", en: "Monument to Viati", ru: "Памятник Виати" },
+    { src: "gallery/6", uk: "Третій сезон (1984)", en: "Third season (1984)", ru: "Третий сезон (1984)" }
   ];
+  var EXTS = ["jpg", "png", "jpeg", "webp", "JPG", "PNG", "JPEG"];
   var galleryGrid = document.getElementById("gallery-grid");
   var lb = document.getElementById("lightbox");
   var lbStage = document.getElementById("lb-stage");
@@ -744,12 +745,20 @@
     var img = document.createElement("img");
     img.alt = item[lang];
     img.loading = "lazy";
-    img.addEventListener("load", function () { item.ok = true; });
+    // пробуємо різні розширення, поки одне не завантажиться
+    var tries = item.url ? [item.url] : EXTS.map(function (e) { return item.src + "." + e; });
+    var k = 0;
+    img.addEventListener("load", function () {
+      item.ok = true;
+      item.url = img.getAttribute("src");
+    });
     img.addEventListener("error", function () {
+      k++;
+      if (k < tries.length) { img.src = tries[k]; return; }
       item.ok = false;
       if (img.parentNode) img.parentNode.replaceChild(placeholder(i), img);
     });
-    img.src = item.src;
+    img.src = tries[0];
     return img;
   }
 
