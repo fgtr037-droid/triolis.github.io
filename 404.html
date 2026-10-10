@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='24' cy='26' r='16' fill='%23FF5C7C'/%3E%3Ccircle cx='40' cy='26' r='16' fill='%23FFD54A' fill-opacity='.85'/%3E%3Ccircle cx='32' cy='41' r='16' fill='%236FE3BF' fill-opacity='.85'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+// Мова й тема беруться з налаштувань основного сайту
+(function () {
+  var root = document.documentElement, theme = "light", lang = "uk";
+  try {
+    var t = localStorage.getItem("triolis-theme");
+    if (t === "dark" || t === "light") theme = t;
+    var l = localStorage.getItem("triolis-lang");
+    if (l === "uk" || l === "en" || l === "ru") lang = l;
+  } catch (e) {}
+  root.setAttribute("data-theme", theme);
+  root.lang = lang;
+})();
+</script>
+<style>
+  :root {
+    --lilac: #ECE8FF; --ink: #1A1446; --coral: #FF5C7C; --mint: #6FE3BF; --butter: #FFD54A;
+    --paper: #FFFFFF; --shadow: #1A1446; --on-color: #1A1446;
+    --display: "Unbounded", "Arial Black", system-ui, sans-serif;
+    --body: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: light;
+  }
+  :root[data-theme="dark"] {
+    --lilac: #14112E; --ink: #F2EFFF; --paper: #201B4A; --shadow: #3B32A0; color-scheme: dark;
+  }
+  [hidden] { display: none !important; }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 1.25rem;
+    background: var(--lilac); color: var(--ink); font-family: var(--body); font-size: 1.0625rem; line-height: 1.55;
+  }
+  :focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
+  .card {
+    width: min(560px, 100%); background: var(--paper); border: 3px solid var(--ink); border-radius: 22px;
+    box-shadow: 10px 10px 0 var(--shadow); overflow: hidden;
+  }
+  .head { display: flex; align-items: center; gap: .7rem; padding: .85rem 1.1rem; background: var(--butter); color: var(--on-color); border-bottom: 3px solid var(--ink); }
+  .head b { font-family: var(--display); font-weight: 800; font-size: 1rem; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--on-color); flex: none; }
+  .body { padding: 1.6rem 1.4rem 1.8rem; }
+  h1 { font-family: var(--display); font-weight: 800; font-size: clamp(4rem, 18vw, 7rem); line-height: 1; margin: 0 0 1rem; letter-spacing: -0.03em; }
+  .msg { display: inline-block; max-width: 90%; padding: .6rem .95rem; margin: 0 0 1.4rem; background: var(--lilac); border: 2px solid var(--ink); border-radius: 16px 16px 16px 4px; }
+  .btn {
+    display: inline-block; font-weight: 600; font-size: 1rem; background: var(--ink); color: var(--paper);
+    border: 3px solid var(--ink); border-radius: 999px; padding: .65rem 1.3rem; text-decoration: none;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--coral); }
+  /* варіант із гіфкою: завжди на білому, бо в гіфки прозорий фон */
+  .gif-card {
+    width: min(520px, 100%); background: #FFFFFF; color: #1A1446; border: 3px solid var(--ink); border-radius: 22px;
+    box-shadow: 10px 10px 0 var(--shadow); padding: 1.2rem; text-align: center;
+  }
+  .gif-card img { display: block; max-width: 100%; max-height: 62vh; width: auto; height: auto; margin: 0 auto 1.2rem; }
+  .gif-card .btn { background: #1A1446; color: #FFFFFF; border-color: #1A1446; }
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+</style>
+</head>
+<body>
+  <main class="card" id="html-version" hidden>
+    <div class="head"><span class="dot" aria-hidden="true"></span><b id="name">ТріолісК.</b></div>
+    <div class="body">
+      <h1>404</h1>
+      <p class="msg" id="msg">ТріолісК шукав цю сторінку, але інтелекту знайти її в нього немає.</p>
+      <div><a class="btn" id="home" href="/">На головну</a></div>
+    </div>
+  </main>
+
+  <main class="gif-card" id="gif-version" hidden>
+    <img id="gif" alt="404. Nothing of value was found">
+    <a class="btn" id="home2" href="/">На головну</a>
+  </main>
+<script>
+(function () {
+  var T = {
+    uk: { name: "ТріолісК.", msg: "ТріолісК шукав цю сторінку, але інтелекту знайти її в нього немає.", home: "На головну" },
+    en: { name: "TriolisK.", msg: "TriolisK looked for this page, but he has no intelligence to find it.", home: "Back to home" },
+    ru: { name: "ТриолисК.", msg: "ТриолисК искал эту страницу, но интеллекта её найти у него нет.", home: "На главную" }
+  };
+  var d = T[document.documentElement.lang] || T.uk;
+  document.getElementById("name").textContent = d.name;
+  document.getElementById("msg").textContent = d.msg;
+
+  // Адреса головної: якщо репозиторій не названий "логін.github.io", сайт живе в підпапці
+  var first = location.pathname.split("/")[1];
+  var base = first === "triolis.github.io" ? "/triolis.github.io/" : "/";
+  ["home", "home2"].forEach(function (id) {
+    var a = document.getElementById(id);
+    a.setAttribute("href", base);
+    a.textContent = d.home;
+  });
+
+  var htmlVersion = document.getElementById("html-version");
+  var gifVersion = document.getElementById("gif-version");
+  var gif = document.getElementById("gif");
+
+  // 50 на 50: гіфка або HTML-сторінка
+  if (Math.random() < 0.5) {
+    gif.addEventListener("load", function () { gifVersion.hidden = false; });
+    // якщо гіфка не завантажилась, показуємо HTML-варіант
+    gif.addEventListener("error", function () { htmlVersion.hidden = false; });
+    gif.src = base + "404.gif";
+  } else {
+    htmlVersion.hidden = false;
+  }
+})();
+</script>
+</body>
+</html>
