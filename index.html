@@ -65,7 +65,8 @@
 
   /* top bar */
   .top { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 0; }
-  .logo { font-family: var(--display); font-weight: 800; font-size: 1.15rem; text-decoration: none; display: flex; align-items: center; gap: .6rem; }
+  .logo { font-family: var(--display); font-weight: 800; font-size: 1.15rem; text-decoration: none; display: flex; align-items: center; gap: .6rem;
+    user-select: none; -webkit-user-select: none; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
   .logo svg { width: 34px; height: 34px; }
   .gear {
     width: 46px; height: 46px; display: grid; place-items: center;
@@ -117,7 +118,7 @@
   .chat-head span { font-size: .9rem; }
   .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--on-color); flex: none; }
   .log { flex: 1; overflow-y: auto; padding: 1.1rem; display: flex; flex-direction: column; gap: .7rem; scroll-behavior: smooth; }
-  .msg { max-width: 85%; padding: .6rem .95rem; border-radius: 16px; border: 2px solid var(--ink); overflow-wrap: anywhere; }
+  .msg { white-space: pre-line; max-width: 85%; padding: .6rem .95rem; border-radius: 16px; border: 2px solid var(--ink); overflow-wrap: anywhere; }
   .msg.bot { align-self: flex-start; background: var(--lilac); border-bottom-left-radius: 4px; }
   .msg.me { align-self: flex-end; background: var(--mint); color: var(--on-color); border-bottom-right-radius: 4px; }
   .msg.typing { letter-spacing: .25em; }
@@ -149,6 +150,31 @@
   .vote button { background: var(--paper); color: var(--ink); border: 3px solid var(--ink); border-radius: 999px; font: 600 1rem var(--body); padding: .5rem 1rem; cursor: pointer; }
   .vote button:hover { background: var(--ink); color: var(--paper); }
   .verdict { margin-top: .9rem; font-family: var(--display); font-weight: 800; font-size: 1.4rem; min-height: 1.6em; }
+
+  /* навігація */
+  .top-actions { display: flex; align-items: center; gap: .7rem; }
+  .navlink { font-weight: 600; text-decoration: none; color: var(--ink); background: var(--paper); border: 3px solid var(--ink); border-radius: 999px; padding: .5rem 1.1rem; }
+  .navlink:hover { background: var(--lilac); }
+  .navlink[aria-current="page"] { background: var(--butter); color: var(--on-color); }
+
+  /* цитата дня */
+  .qotd-wrap { padding: 0 0 4.5rem; }
+  .qotd { background: var(--ink); color: var(--lilac); border: 3px solid var(--ink); border-radius: 22px; padding: 2rem 2.2rem; box-shadow: 10px 10px 0 var(--coral); }
+  .qotd-label { margin: 0 0 1.1rem; font-family: var(--display); font-weight: 500; font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; opacity: .8; }
+  .qotd-text { margin: 0 0 1.2rem; font-family: var(--display); font-weight: 500; font-size: clamp(1.3rem, 3.2vw, 2.1rem); line-height: 1.25; white-space: pre-line; overflow-wrap: anywhere; }
+  .qotd-text.long { font-family: var(--body); font-size: clamp(1.05rem, 2vw, 1.3rem); line-height: 1.5; }
+  .qotd-author { margin: 0; opacity: .85; }
+
+  /* новини */
+  .news { padding: 1.5rem 0 5rem; }
+  .news h1 { font-family: var(--display); font-weight: 800; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.1; margin: 0 0 2rem; }
+  .feed { display: grid; gap: 2.2rem; max-width: 680px; margin-bottom: 2rem; }
+  .post { background: var(--paper); border: 3px solid var(--ink); border-radius: 22px; box-shadow: 6px 6px 0 var(--shadow); overflow: hidden; }
+  .post .media { aspect-ratio: 16 / 9; }
+  .post-body { padding: 1.2rem 1.4rem 1.5rem; }
+  .post-date { display: block; font-size: .9rem; font-weight: 600; opacity: .75; margin-bottom: .4rem; }
+  .post h2 { font-family: var(--display); font-weight: 500; font-size: 1.3rem; line-height: 1.2; margin: 0 0 .6rem; }
+  .post p { margin: 0; white-space: pre-line; }
 
   /* галерея */
   .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
@@ -238,7 +264,7 @@
 
 <div class="wrap">
   <header class="top">
-    <a class="logo" href="#">
+    <a class="logo" id="logo" href="#">
       <svg viewBox="0 0 64 64" aria-hidden="true">
         <circle cx="24" cy="26" r="16" fill="#FF5C7C"/>
         <circle cx="40" cy="26" r="16" fill="#FFD54A" fill-opacity=".85"/>
@@ -246,12 +272,15 @@
       </svg>
       <span id="logo-text">Тріоліс</span>
     </a>
+    <div class="top-actions">
+    <a class="navlink" id="news-link" href="#news" data-i18n="nav_news">Новини</a>
     <a class="gear" id="gear" href="#settings" data-i18n-label="settings" aria-label="Налаштування">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="12" cy="12" r="3"/>
         <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
       </svg>
     </a>
+    </div>
   </header>
 
   <main id="home">
@@ -279,6 +308,14 @@
           <input id="input" type="text" data-i18n-placeholder="chat_ph" placeholder="Напиши щось, наприклад: торти" data-i18n-label="chat_input" aria-label="Повідомлення для ТріолісК" maxlength="200">
           <button class="btn" type="submit" data-i18n="send">Надіслати</button>
         </form>
+      </div>
+    </section>
+
+    <section class="qotd-wrap" aria-labelledby="qotd-h">
+      <div class="qotd">
+        <p class="qotd-label" id="qotd-h" data-i18n="qotd_h">Цитата дня</p>
+        <blockquote class="qotd-text" id="qotd-text" style="margin-inline:0"></blockquote>
+        <p class="qotd-author" id="qotd-author"></p>
       </div>
     </section>
 
@@ -312,6 +349,13 @@
     </section>
   </main>
 
+  <main id="news" class="news" hidden>
+    <a class="back" href="#" data-i18n="set_back">Назад</a>
+    <h1 data-i18n="news_h">Новини та патчноути</h1>
+    <div class="feed" id="feed"></div>
+    <button class="btn ghost" type="button" id="feed-more" data-i18n="news_more" hidden>Показати ще</button>
+  </main>
+
   <main id="settings" class="settings" hidden>
     <a class="back" href="#" data-i18n="set_back">Назад</a>
     <div class="settings-card">
@@ -331,6 +375,14 @@
         <div class="seg-row">
           <label class="seg"><input type="radio" name="theme" value="light"><span data-i18n="theme_light">Світла</span></label>
           <label class="seg"><input type="radio" name="theme" value="dark"><span data-i18n="theme_dark">Темна</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="seg-group">
+        <legend data-i18n="set_sound">Звук</legend>
+        <div class="seg-row">
+          <label class="seg"><input type="radio" name="sound" value="on"><span data-i18n="sound_on">Увімкнено</span></label>
+          <label class="seg"><input type="radio" name="sound" value="off"><span data-i18n="sound_off">Вимкнено</span></label>
         </div>
       </fieldset>
     </div>
@@ -418,7 +470,9 @@
       set_title: "Налаштування", set_back: "Назад", set_lang: "Мова", set_theme: "Тема",
       theme_light: "Світла", theme_dark: "Темна",
       gallery_h: "Галерея", gallery_link: "Галерея", gallery_soon: "Скріншот ще будується",
-      lb_prev: "Попередній", lb_next: "Наступний", lb_close: "Закрити"
+      lb_prev: "Попередній", lb_next: "Наступний", lb_close: "Закрити",
+      nav_news: "Новини", news_h: "Новини та патчноути", news_more: "Показати ще", news_soon: "Фото ще будується",
+      qotd_h: "Цитата дня", set_sound: "Звук", sound_on: "Увімкнено", sound_off: "Вимкнено"
     },
     en: {
       title: "Triolis",
@@ -451,7 +505,9 @@
       set_title: "Settings", set_back: "Back", set_lang: "Language", set_theme: "Theme",
       theme_light: "Light", theme_dark: "Dark",
       gallery_h: "Gallery", gallery_link: "Gallery", gallery_soon: "Screenshot is still being built",
-      lb_prev: "Previous", lb_next: "Next", lb_close: "Close"
+      lb_prev: "Previous", lb_next: "Next", lb_close: "Close",
+      nav_news: "News", news_h: "News and patch notes", news_more: "Show more", news_soon: "Photo is still being built",
+      qotd_h: "Quote of the day", set_sound: "Sound", sound_on: "On", sound_off: "Off"
     },
     ru: {
       title: "Триолис",
@@ -484,7 +540,9 @@
       set_title: "Настройки", set_back: "Назад", set_lang: "Язык", set_theme: "Тема",
       theme_light: "Светлая", theme_dark: "Тёмная",
       gallery_h: "Галерея", gallery_link: "Галерея", gallery_soon: "Скриншот ещё строится",
-      lb_prev: "Предыдущий", lb_next: "Следующий", lb_close: "Закрыть"
+      lb_prev: "Предыдущий", lb_next: "Следующий", lb_close: "Закрыть",
+      nav_news: "Новости", news_h: "Новости и патчноуты", news_more: "Показать ещё", news_soon: "Фото ещё строится",
+      qotd_h: "Цитата дня", set_sound: "Звук", sound_on: "Включён", sound_off: "Выключен"
     }
   };
 
@@ -492,10 +550,10 @@
   var CHAT = {
     uk: {
       greeting: "Слава Тріолісу. Напиши щось або натисни на слово нижче.",
-      chips: ["Тріоліс", "Київські торти", "Сезон", "Інтермецо", "Гра", "Бан", "Тю"],
+      chips: ["Тріоліс", "Київські торти", "Сезон", "Інтермецо", "Гра", "Бан", "Тю", "Цитата"],
       fallback: [
         "ТріолісК не зрозумів. Це нормально, інтелекту ж немає.",
-        "Спробуй щось із місцевого: торти, третій сезон, Інтермецо.",
+        "Спробуй щось із місцевого: торти, сезон, Інтермецо.",
         "Не розумію, але Слава Тріолісу."
       ],
       russian: "Москалів на ножі! Москалів на ножі!",
@@ -522,7 +580,7 @@
     },
     en: {
       greeting: "Glory to Triolis. Write something or tap a word below.",
-      chips: ["Triolis", "Kyiv cakes", "Season", "Intermezzo", "Game", "Ban", "Tyu"],
+      chips: ["Triolis", "Kyiv cakes", "Season", "Intermezzo", "Game", "Ban", "Tyu", "Quote"],
       fallback: [
         "TriolisK did not understand. That's fine, there is no intelligence anyway.",
         "Try something local: cakes, season, Intermezzo.",
@@ -552,7 +610,7 @@
     },
     ru: {
       greeting: "Слава Триолису. Напиши что-нибудь или нажми на слово ниже.",
-      chips: ["Триолис", "Киевские торты", "Сезон", "Интермеццо", "Игра", "Бан", "Тю"],
+      chips: ["Триолис", "Киевские торты", "Сезон", "Интермеццо", "Игра", "Бан", "Тю", "Цитата"],
       fallback: [
         "ТриолисК не понял. Это нормально, интеллекта же нет.",
         "Попробуй что-то из местного: торты, сезон, Интермеццо.",
@@ -592,6 +650,143 @@
     CHAT[l].triggers.push([["1984"], [ORWELL[l]]]);
   });
 
+  // Цитати з серверу (шукай і додавай нові в цей список)
+  var QUOTES = [
+  {
+    "t": "Не пройшло й пів шишки",
+    "a": "Ляшко"
+  },
+  {
+    "t": "Є люди сліпі, котрі бачать світи, а є люди зрячі, котрі нічого не бачать",
+    "a": "Ендріо_037. Фонд Золотих цитат ФР Колумбія"
+  },
+  {
+    "t": "бляха",
+    "a": "невідома особа. Фонд Золотих цитат ФР Колумбія"
+  },
+  {
+    "t": "Є тузи, котрі тримають не один нюанс, а є нюанси, які не витримають ні одного туза.",
+    "a": "Ендріо. Фонд Золотих цитат ФР Колумбія"
+  },
+  {
+    "t": "Чим далі в життя, тим я щизанутіше",
+    "a": "Хіккі"
+  },
+  {
+    "t": "А яка тоді різніця? Ви там всі по дівчатам, рахуй кенти без пісюнів",
+    "a": "Олександр Івасенко"
+  },
+  {
+    "t": "Для декого й найяскравіше світло буде без крайньою темрявою, а для когось - це буде тепло і спокій",
+    "a": "Ендріо, Фонд Золотих Цитат Федеративної Республіки Колумбія"
+  },
+  {
+    "t": "Геніальні думки часто бувають в різних обгортках",
+    "a": "Ендріо. Фонд Золотих цитат ФР Колумбія"
+  },
+  {
+    "t": "і встали безногі ветерани СВО",
+    "a": "Андрій Ляхенко, патріот Федеративної Колумбійської Республіки"
+  },
+  {
+    "t": "Не лучше туза, ніж той, що дід розіграє в карти...",
+    "a": "Хіккі"
+  },
+  {
+    "t": "Дехто вільний тільки у вечері.. А МИ ВІЛЬНІ ТА НЕЗАЛЕЖНІ ЗАВЖДИ З 1991-ГО",
+    "a": "ФркВмпр"
+  },
+  {
+    "t": "тузакент",
+    "a": "Хіккі"
+  },
+  {
+    "t": "З клоуна в реаліста, лише пара слів",
+    "a": "Хіккі"
+  },
+  {
+    "t": "Привід подумати",
+    "a": "доповнення Хіккі"
+  },
+  {
+    "t": "мідь: змушує окислитися..",
+    "a": "Андрій Ляшко"
+  },
+  {
+    "t": "ТУЗ КАРТУЗ ЛЮБЛЮ СВІЙ ВУЗ (ні)",
+    "a": "Андрій Ляшко, один із засновників легендарного серверу Тріоліс"
+  },
+  {
+    "t": "йоу карнавал\nв універі завал",
+    "a": "фонд цитат невідомих студентів відділення іноземних мов факультету історії, філології та політико-юридичних наук НДУ ім. Миколи Гоголя"
+  },
+  {
+    "t": "Я вас вб'ю, Беніто...",
+    "a": "Леголас"
+  },
+  {
+    "t": "Андрюша Тузовіч\nІлля Жмуровєц\nКасандриня Кулініч",
+    "a": "Андрій Порвана Ляшка"
+  },
+  {
+    "t": "реальне життя, це не тріоліс, щоби там хотілося жити",
+    "a": "Ендріо 067"
+  },
+  {
+    "t": "„продам Тріоліс“ заявив Беніто, але звісно ж, це був прогрів гоїв, оскільки ніякий „Тріоліс“, він продавати не збирався...",
+    "a": "Хіккі"
+  },
+  {
+    "t": "зуби кладуть на полицю, хуй на проблеми, руки на стіл, а око - на коханих",
+    "a": "XxFrkyVmp1rexX"
+  },
+  {
+    "t": "хуй можна покласти навіть на друга, якщо ви бажаєте його чекнуть",
+    "a": "Хіккі"
+  },
+  {
+    "t": "ZiZov",
+    "a": "Endrio067"
+  },
+  {
+    "t": "Гострий тузяра... як зайдеш, так не вийдеш",
+    "a": "Ендріо"
+  },
+  {
+    "t": "Київські торти почали виготовляти з новим ЩЕ БІЛЬШ СЕКРЕТНИМ інгредієнтом, котрий почав заражати жителів Тріолісу. все це - запланований геноцид від Інтермецо, але пізніше це виходить з-під їхнього контролю, і представники Тріолісу, Інтермецо та Виати мають об'єднатися задля подолання спільної загрози та виживання",
+    "a": "@Je$$e Pi¢kMaN"
+  },
+  {
+    "t": "і назва їх об'єднання \"Спеціальний Комітет Ліги Націй з питання Чумової погоди імені Беніто Мусоленка розміщений на території Великого князівства Леголасіфського\"",
+    "a": "лідер клумби"
+  },
+  {
+    "t": "на пів шишечки, як у нас на тріолісі кажуть",
+    "a": "Ендіро сікссевенко"
+  },
+  {
+    "t": "Тріоліс✊🏿",
+    "a": "@Je$$e Pi¢kMaN"
+  }
+];
+
+  // Чат: "цитата", "дай цитату", "цитати" тощо дають одну випадкову цитату
+  var QUOTE_WORDS = {
+    uk: ["цитата", "цитати", "цитату", "цитат", "афоризм", "афоризми", "мудрість", "дай цитату"],
+    en: ["quote", "quotes", "quotation", "give me a quote", "famous quotes", "wisdom"],
+    ru: ["цитата", "цитаты", "цитату", "цитат", "афоризм", "афоризмы", "мудрость", "дай цитату"]
+  };
+  var lastQuote = -1;
+  function randomQuote() {
+    var i;
+    do { i = Math.floor(Math.random() * QUOTES.length); } while (QUOTES.length > 1 && i === lastQuote);
+    lastQuote = i;
+    return "«" + QUOTES[i].t + "»\n— " + QUOTES[i].a;
+  }
+  Object.keys(QUOTE_WORDS).forEach(function (l) {
+    CHAT[l].triggers.push([QUOTE_WORDS[l], [randomQuote]]);
+  });
+
   /* ---------- Збереження налаштувань ---------- */
   function load(key, allowed, fallback) {
     try {
@@ -629,7 +824,10 @@
     if (c.russian && /[ыэъё]/i.test(raw)) return c.russian;
     var text = " " + norm(raw) + " ";
     for (var i = 0; i < LIST.length; i++) {
-      if (text.indexOf(" " + LIST[i][0] + " ") !== -1) return pick(LIST[i][1]);
+      if (text.indexOf(" " + LIST[i][0] + " ") !== -1) {
+        var r = pick(LIST[i][1]);
+        return typeof r === "function" ? r() : r;
+      }
     }
     return pick(c.fallback);
   }
@@ -696,7 +894,9 @@
   function renderLogo() {
     logoText.textContent = logoEgg ? "1984" : I18N[lang].logo;
   }
-  logoText.addEventListener("click", function () {
+  document.getElementById("logo").addEventListener("click", function (e) {
+    // на головній не даємо посиланню "#" смикати сторінку; з налаштувань воно веде на головну
+    if (location.hash !== "#settings") e.preventDefault();
     logoClicks++;
     clearTimeout(logoTimer);
     logoTimer = setTimeout(function () { logoClicks = 0; }, 700);
@@ -731,7 +931,7 @@
   var lbCap = document.getElementById("lb-cap");
   var lbIndex = 0;
 
-  function placeholder(i) {
+  function placeholder(i, key) {
     var ph = document.createElement("div");
     ph.className = "ph c" + (i % 3);
     ph.innerHTML = '<svg viewBox="0 0 64 64" aria-hidden="true">' +
@@ -739,17 +939,16 @@
       '<circle cx="40" cy="26" r="16" fill="#1A1446" fill-opacity=".22"/>' +
       '<circle cx="32" cy="41" r="16" fill="#1A1446" fill-opacity=".22"/></svg>';
     var t = document.createElement("span");
-    t.textContent = I18N[lang].gallery_soon;
+    t.textContent = I18N[lang][key || "gallery_soon"];
     ph.appendChild(t);
     return ph;
   }
 
   // Повертає елемент із картинкою або з заглушкою
-  function mediaFor(i) {
-    var item = GALLERY[i];
-    if (item.ok === false) return placeholder(i);
+  function loadMedia(item, i, soonKey, alt) {
+    if (item.ok === false) return placeholder(i, soonKey);
     var img = document.createElement("img");
-    img.alt = item[lang];
+    img.alt = alt;
     img.loading = "lazy";
     // пробуємо різні розширення, поки одне не завантажиться
     var tries = item.url ? [item.url] : EXTS.map(function (e) { return item.src + "." + e; });
@@ -762,10 +961,13 @@
       k++;
       if (k < tries.length) { img.src = tries[k]; return; }
       item.ok = false;
-      if (img.parentNode) img.parentNode.replaceChild(placeholder(i), img);
+      if (img.parentNode) img.parentNode.replaceChild(placeholder(i, soonKey), img);
     });
     img.src = tries[0];
     return img;
+  }
+  function mediaFor(i) {
+    return loadMedia(GALLERY[i], i, "gallery_soon", GALLERY[i][lang]);
   }
 
   function renderGallery() {
@@ -809,6 +1011,107 @@
     else if (e.key === "ArrowRight") showLightbox(lbIndex + 1);
   });
 
+  /* ---------- Цитата дня (однакова для всіх протягом доби) ---------- */
+  function renderQotd() {
+    var d = new Date();
+    var days = Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000);
+    var q = QUOTES[(days * 7919) % QUOTES.length];
+    var el = document.getElementById("qotd-text");
+    el.textContent = "«" + q.t + "»";
+    el.className = "qotd-text" + (q.t.length > 160 ? " long" : "");
+    document.getElementById("qotd-author").textContent = "— " + q.a;
+  }
+
+  /* ---------- Новини та патчноути ----------
+     Нова новина = новий елемент зверху списку. Фото кладеш у папку news
+     (news/1.jpg, news/2.png ...) і вказуєш src без розширення. */
+  var NEWS = [
+    {
+      src: "news/1", date: "2026-10-11",
+      uk: { title: "Безхатькі приєдналися до тренду «I Love Triolis»", text: "До нашої редакції надійшов загадковиї лист. Точно не від Беніто М. В цьому паперовому виробі було фото, котре ви можете бачити вище, безхатькі симпатизують нашому серверу." },
+      en: { title: "Homeless people joined the “I Love Triolis” trend", text: "A mysterious letter arrived at our editorial office. Definitely not from Benito M. This paper item contained the photo you can see above: the homeless sympathize with our server." },
+      ru: { title: "Бездомные присоединились к тренду «I Love Triolis»", text: "В нашу редакцию пришло загадочное письмо. Точно не от Бенито М. В этом бумажном изделии было фото, которое вы можете видеть выше: бездомные симпатизируют нашему серверу." }
+    }
+  ];
+  var NEWS_PAGE = 5, newsShown = NEWS_PAGE;
+  var feed = document.getElementById("feed");
+  var feedMore = document.getElementById("feed-more");
+
+  function fmtDate(iso) {
+    var p = iso.split("-");
+    var d = new Date(+p[0], +p[1] - 1, +p[2]);
+    var loc = { uk: "uk-UA", en: "en-GB", ru: "ru-RU" }[lang];
+    try { return d.toLocaleDateString(loc, { day: "numeric", month: "long", year: "numeric" }); }
+    catch (e) { return iso; }
+  }
+
+  function renderNews() {
+    feed.textContent = "";
+    NEWS.slice(0, newsShown).forEach(function (item, i) {
+      var post = document.createElement("article");
+      post.className = "post";
+      var media = document.createElement("div");
+      media.className = "media";
+      media.appendChild(loadMedia(item, i, "news_soon", item[lang].title));
+      var body = document.createElement("div");
+      body.className = "post-body";
+      var time = document.createElement("time");
+      time.className = "post-date";
+      time.setAttribute("datetime", item.date);
+      time.textContent = fmtDate(item.date);
+      var h = document.createElement("h2");
+      h.textContent = item[lang].title;
+      var t = document.createElement("p");
+      t.textContent = item[lang].text;
+      body.appendChild(time); body.appendChild(h); body.appendChild(t);
+      post.appendChild(media); post.appendChild(body);
+      feed.appendChild(post);
+    });
+    feedMore.hidden = NEWS.length <= newsShown;
+  }
+  feedMore.addEventListener("click", function () { newsShown += NEWS_PAGE; renderNews(); });
+
+  /* ---------- Тихі звуки кліків ---------- */
+  var soundOn = load("triolis-sound", ["on", "off"], "on") === "on";
+  var audioCtx = null, lastTick = 0;
+  function tick() {
+    if (!soundOn) return;
+    var now = Date.now();
+    if (now - lastTick < 70) return;   // один клік по мітці не лунає двічі
+    lastTick = now;
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      if (!audioCtx) audioCtx = new AC();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      var t = audioCtx.currentTime;
+      var osc = audioCtx.createOscillator(), g = audioCtx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(880, t);
+      osc.frequency.exponentialRampToValueAtTime(420, t + 0.05);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.05, t + 0.005);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.07);
+      osc.connect(g); g.connect(audioCtx.destination);
+      osc.start(t); osc.stop(t + 0.08);
+    } catch (e) {}
+  }
+  document.addEventListener("click", function (e) {
+    if (e.target.closest && e.target.closest("a, button, .tile, label.seg")) tick();
+  }, true);
+
+  function applySound(v) {
+    soundOn = v === "on";
+    var radio = document.querySelector('input[name="sound"][value="' + v + '"]');
+    if (radio) radio.checked = true;
+  }
+  document.querySelectorAll('input[name="sound"]').forEach(function (r) {
+    r.addEventListener("change", function () {
+      if (r.checked) { applySound(r.value); save("triolis-sound", r.value); }
+    });
+  });
+  applySound(soundOn ? "on" : "off");
+
   /* ---------- Мова ---------- */
   function applyLang(newLang) {
     var changed = newLang !== lang || !log.hasChildNodes();
@@ -833,6 +1136,8 @@
     renderVerdict();
     renderLogo();
     renderGallery();
+    renderQotd();
+    renderNews();
     if (changed) {
       log.textContent = "";
       add(CHAT[lang].greeting, "bot");
@@ -863,16 +1168,29 @@
   /* ---------- Перехід між головною та налаштуваннями ---------- */
   var home = document.getElementById("home");
   var settings = document.getElementById("settings");
+  var newsView = document.getElementById("news");
+  var newsLink = document.getElementById("news-link");
   var gear = document.getElementById("gear");
   function route() {
     var onSettings = location.hash === "#settings";
-    home.hidden = onSettings;
+    var onNews = location.hash === "#news";
+    home.hidden = onSettings || onNews;
     settings.hidden = !onSettings;
+    newsView.hidden = !onNews;
     if (onSettings) gear.setAttribute("aria-current", "page");
     else gear.removeAttribute("aria-current");
-    if (onSettings) window.scrollTo(0, 0);
+    if (onNews) newsLink.setAttribute("aria-current", "page");
+    else newsLink.removeAttribute("aria-current");
+    if (onSettings || onNews) window.scrollTo(0, 0);
   }
   window.addEventListener("hashchange", route);
+  // повторне натискання на шестерню закриває налаштування
+  gear.addEventListener("click", function (e) {
+    if (location.hash === "#settings") {
+      e.preventDefault();
+      location.hash = "";
+    }
+  });
 
   /* ---------- Вікно "оплати" (жарт, дані нікуди не йдуть) ---------- */
   var pay = document.getElementById("pay");
