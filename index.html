@@ -211,6 +211,8 @@
   .joke { font-family: var(--display); font-weight: 800; font-size: 1.2rem; margin: 0 0 .8rem; }
 
   footer { border-top: 3px solid var(--ink); padding: 1.6rem 0 2.4rem; font-size: .95rem; }
+  .buy { color: inherit; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  .buy:hover { text-decoration-color: var(--coral); }
   footer .wrap { display: flex; flex-wrap: wrap; gap: .5rem 2rem; justify-content: space-between; }
 
   @media (max-width: 880px) {
@@ -338,6 +340,7 @@
 <footer>
   <div class="wrap">
     <span data-i18n="footer">Створено Беніто. Сайт не є офіційним.</span>
+    <a class="buy" href="404.html" data-i18n="buy">Купити Тріоліс</a>
   </div>
 </footer>
 
@@ -403,6 +406,7 @@
       b3_p: "Що краще: Тріоліс чи Інтермецо? Вибір є.",
       vote1: "Тріоліс", vote2: "Інтермецо", verdict: "Виати",
       footer: "Створено Беніто. Сайт не є офіційним.",
+      buy: "Купити Тріоліс",
       pay_title: "Вступний внесок: 14 шекелів, 88 аґоротів",
       pay_p: "Для входу на сервер введи номер картки.",
       pay_label: "Номер картки",
@@ -435,6 +439,7 @@
       b3_p: "Which is better: Triolis or Intermezzo? There is a choice.",
       vote1: "Triolis", vote2: "Intermezzo", verdict: "Viati",
       footer: "Created by Benito. This site is not official.",
+      buy: "Buy Triolis",
       pay_title: "Entry fee: 14 shekels, 88 agorot",
       pay_p: "Enter your card number to join the server.",
       pay_label: "Card number",
@@ -467,6 +472,7 @@
       b3_p: "Что лучше: Триолис или Интермеццо? Выбор есть.",
       vote1: "Триолис", vote2: "Интермеццо", verdict: "Виати",
       footer: "Создано Бенито. Сайт не является официальным.",
+      buy: "Купить Триолис",
       pay_title: "Вступительный взнос: 14 шекелей, 88 агорот",
       pay_p: "Для входа на сервер введи номер карты.",
       pay_label: "Номер карты",
