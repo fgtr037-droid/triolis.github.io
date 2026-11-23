@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Тріоліс</title>
 <meta name="description" content="Найкращий антропівський майнкрафт сервер в усьому всесвіті.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='24' cy='26' r='16' fill='%23FF5C7C'/%3E%3Ccircle cx='40' cy='26' r='16' fill='%23FFD54A' fill-opacity='.85'/%3E%3Ccircle cx='32' cy='41' r='16' fill='%236FE3BF' fill-opacity='.85'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%2214%22%20fill=%22%231A1446%22/%3E%3Csvg%20x=%2212%22%20y=%228%22%20width=%2240%22%20height=%2248%22%20viewBox=%2278%2052%20524%20656%22%3E%3Cg%20fill=%22none%22%20stroke=%22%23ECE8FF%22%20stroke-width=%2234%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20transform=%22translate%280,15%29%22%3E%3Cg%3E%3Cpolyline%20points=%22212,175%2097,55%20110,185%20212,307%22/%3E%3Cline%20x1=%2297%22%20y1=%2255%22%20x2=%22340%22%20y2=%22305%22/%3E%3Cline%20x1=%22212%22%20y1=%22175%22%20x2=%22212%22%20y2=%22307%22/%3E%3Cpolyline%20points=%22212,185%20225,542%20340,667%22/%3E%3Cline%20x1=%22340%22%20y1=%22305%22%20x2=%22340%22%20y2=%22542%22/%3E%3Cpolyline%20points=%22105,315%20112,552%20215,675%22/%3E%3C/g%3E%3Cg%20transform=%22translate%28680,0%29%20scale%28-1,1%29%22%3E%3Cpolyline%20points=%22212,175%2097,55%20110,185%20212,307%22/%3E%3Cline%20x1=%2297%22%20y1=%2255%22%20x2=%22340%22%20y2=%22305%22/%3E%3Cline%20x1=%22212%22%20y1=%22175%22%20x2=%22212%22%20y2=%22307%22/%3E%3Cpolyline%20points=%22212,185%20225,542%20340,667%22/%3E%3Cline%20x1=%22340%22%20y1=%22305%22%20x2=%22340%22%20y2=%22542%22/%3E%3Cpolyline%20points=%22105,315%20112,552%20215,675%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
@@ -65,9 +65,9 @@
 
   /* top bar */
   .top { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 0; }
-  .logo { font-family: var(--display); font-weight: 800; font-size: 1.15rem; text-decoration: none; display: flex; align-items: center; gap: .6rem;
+  .logo { font-family: var(--display); font-weight: 800; font-size: 1.5rem; text-decoration: none; display: flex; align-items: center; gap: .85rem;
     user-select: none; -webkit-user-select: none; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
-  .logo svg { width: 34px; height: 34px; }
+  .logo svg { height: 68px; width: auto; flex: none; }
   .gear {
     width: 46px; height: 46px; display: grid; place-items: center;
     border: 3px solid var(--ink); border-radius: 50%; color: var(--ink); background: var(--paper);
@@ -97,11 +97,6 @@
   }
   .hero p.lead { font-size: 1.2rem; max-width: 30em; margin: 0 0 1.8rem; }
   .actions { display: flex; flex-wrap: wrap; gap: .8rem; }
-  .rings { position: relative; width: 150px; height: 130px; margin-bottom: 1.6rem; }
-  .rings i { position: absolute; width: 82px; height: 82px; border-radius: 50%; mix-blend-mode: var(--blend); }
-  .rings i:nth-child(1) { background: var(--coral); left: 0; top: 0; }
-  .rings i:nth-child(2) { background: var(--butter); left: 54px; top: 0; }
-  .rings i:nth-child(3) { background: var(--mint); left: 27px; top: 46px; }
 
   /* chat */
   .chat {
@@ -155,6 +150,17 @@
   .top-actions { display: flex; align-items: center; gap: .7rem; }
   .navlink { font-weight: 600; text-decoration: none; color: var(--ink); background: var(--paper); border: 3px solid var(--ink); border-radius: 999px; padding: .5rem 1.1rem; }
   .navlink:hover { background: var(--lilac); }
+  .maplink { display: inline-flex; align-items: center; gap: .45rem; }
+  .maplink svg { width: 18px; height: 18px; flex: none; }
+  .maplink:hover { background: var(--mint); color: var(--on-color); }
+  .navlink { white-space: nowrap; }
+  @media (max-width: 560px) {
+    .top-actions { gap: .45rem; }
+    .navlink { padding: .45rem .8rem; font-size: .95rem; }
+    .maplink svg { display: none; }
+    .logo { font-size: 1.1rem; gap: .6rem; }
+    .logo svg { height: 48px; }
+  }
   .navlink[aria-current="page"] { background: var(--butter); color: var(--on-color); }
 
   /* цитата дня */
@@ -262,19 +268,19 @@
 </head>
 <body>
 
-  <a href="https://fgtr037-droid.github.io/triolis-map/">Карта світу</a>
-
 <div class="wrap">
   <header class="top">
     <a class="logo" id="logo" href="#">
-      <svg viewBox="0 0 64 64" aria-hidden="true">
-        <circle cx="24" cy="26" r="16" fill="#FF5C7C"/>
-        <circle cx="40" cy="26" r="16" fill="#FFD54A" fill-opacity=".85"/>
-        <circle cx="32" cy="41" r="16" fill="#6FE3BF" fill-opacity=".85"/>
+      <svg viewBox="78 52 524 656" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="19" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,15)">
+          <g><polyline points="212,175 97,55 110,185 212,307"/><line x1="97" y1="55" x2="340" y2="305"/><line x1="212" y1="175" x2="212" y2="307"/><polyline points="212,185 225,542 340,667"/><line x1="340" y1="305" x2="340" y2="542"/><polyline points="105,315 112,552 215,675"/></g>
+          <g transform="translate(680,0) scale(-1,1)"><polyline points="212,175 97,55 110,185 212,307"/><line x1="97" y1="55" x2="340" y2="305"/><line x1="212" y1="175" x2="212" y2="307"/><polyline points="212,185 225,542 340,667"/><line x1="340" y1="305" x2="340" y2="542"/><polyline points="105,315 112,552 215,675"/></g>
+        </g>
       </svg>
       <span id="logo-text">Тріоліс</span>
     </a>
     <div class="top-actions">
+    <a class="navlink maplink" id="map-link" href="https://fgtr037-droid.github.io/triolis-map/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span data-i18n="nav_map">Карта світу</span></a>
     <a class="navlink" id="news-link" href="#news" data-i18n="nav_news">Новини</a>
     <a class="gear" id="gear" href="#settings" data-i18n-label="settings" aria-label="Налаштування">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -288,7 +294,6 @@
   <main id="home">
     <section class="hero">
       <div>
-        <div class="rings" aria-hidden="true"><i></i><i></i><i></i></div>
         <h1 data-i18n="h1">Слава Тріолісу!</h1>
         <p class="lead" data-i18n="lead">Найкращий антропівський майнкрафт сервер в усьому всесвіті.</p>
         <div class="actions">
@@ -473,7 +478,7 @@
       theme_light: "Світла", theme_dark: "Темна",
       gallery_h: "Галерея", gallery_link: "Галерея", gallery_soon: "Скріншот ще будується",
       lb_prev: "Попередній", lb_next: "Наступний", lb_close: "Закрити",
-      nav_news: "Новини", news_h: "Новини та патчноути", news_more: "Показати ще", news_soon: "Фото ще будується",
+      nav_news: "Новини", nav_map: "Карта світу", news_h: "Новини та патчноути", news_more: "Показати ще", news_soon: "Фото ще будується",
       qotd_h: "Цитата дня", set_sound: "Звук", sound_on: "Увімкнено", sound_off: "Вимкнено"
     },
     en: {
@@ -508,7 +513,7 @@
       theme_light: "Light", theme_dark: "Dark",
       gallery_h: "Gallery", gallery_link: "Gallery", gallery_soon: "Screenshot is still being built",
       lb_prev: "Previous", lb_next: "Next", lb_close: "Close",
-      nav_news: "News", news_h: "News and patch notes", news_more: "Show more", news_soon: "Photo is still being built",
+      nav_news: "News", nav_map: "World map", news_h: "News and patch notes", news_more: "Show more", news_soon: "Photo is still being built",
       qotd_h: "Quote of the day", set_sound: "Sound", sound_on: "On", sound_off: "Off"
     },
     ru: {
@@ -543,7 +548,7 @@
       theme_light: "Светлая", theme_dark: "Тёмная",
       gallery_h: "Галерея", gallery_link: "Галерея", gallery_soon: "Скриншот ещё строится",
       lb_prev: "Предыдущий", lb_next: "Следующий", lb_close: "Закрыть",
-      nav_news: "Новости", news_h: "Новости и патчноуты", news_more: "Показать ещё", news_soon: "Фото ещё строится",
+      nav_news: "Новости", nav_map: "Карта мира", news_h: "Новости и патчноуты", news_more: "Показать ещё", news_soon: "Фото ещё строится",
       qotd_h: "Цитата дня", set_sound: "Звук", sound_on: "Включён", sound_off: "Выключен"
     }
   };
